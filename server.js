@@ -20,7 +20,8 @@ const PORT = 4000;
 // Here, we are creating our database location
 // If deployed, use the deployed database. Otherwise use the local adventist_news database
 const GBMLocalDB = "mongodb://localhost/adventist_news";
-var MONGODB_URI = process.env.MONGODB_URI || GBMLocalDB;
+var MONGODB_URI = "mongodb://<dbuser>:<dbpassword>@ds215089.mlab.com:15089/heroku_dgs5qcn5" || GBMLocalDB;
+//   process.env.MONGODB_URI
 
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
