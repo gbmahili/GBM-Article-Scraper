@@ -5,6 +5,7 @@ var request = require("request");
 var cheerio = require("cheerio");
 // Set up an instance of express
 const app = express();
+app.use(express.static('public'))
 // Require body-parser to get data from the form
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
@@ -12,7 +13,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 // Require mongoose
 const mongoose = require("mongoose");
 // Require our News model
-const AdventistNews = require("./AdventistNews.model");
+const AdventistNews = require("./models/AdventistNews.model");
 // use port 4000
 const PORT = 4000;
 
@@ -61,7 +62,7 @@ app.get("/articles", function(req, res) {
                 console.log(err);
             }else{
                 res.json(newsArticle);
-            }            
+            };
         });
     });
 
