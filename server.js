@@ -14,6 +14,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 const mongoose = require("mongoose");
 // Require our News model
 const AdventistNews = require("./models/AdventistNews.model");
+const SavedNews = require("./models/SavedNews.model");
 // use port 4000 or the environment's assigned port...such as Heroku's own port
 var PORT = process.env.PORT || 4000;
 
@@ -65,7 +66,48 @@ app.get("/articles", function(req, res) {
             };
         });
     });
-
 });
+
+// Save Article Route:
+app.post("/save_article", function(req, res){
+    // Get the ID of the article to save from the client
+    var article_id = req.body.article_id;
+    // Save it to the new schema for saved articles
+    console.log(article_id);
+    AdventistNews.findOne({ "_id": article_id})
+    .exec(function (err, savedArticles) {
+        if (err) {
+            res.send(err);
+        } else {
+            // Get article to save using the data retrieved from the dabase through the id cliced
+            var articleToSave = {
+                NewsTitle: savedArticles.NewsTitle,
+                NewsArticleBlurb: savedArticles.NewsArticleBlurb,
+                NewsLink: savedArticles.NewsLink,
+                NewsNotes: "Testing Notes will updated when a user adds their notes"
+            };
+            // Save that article to the SavedNews Collection
+            SavedNews.create(articleToSave, (err, favoriteArticles) =>{
+                if(err) {
+                    res.send(err.message);
+                }else{
+                    res.json(favoriteArticles);
+                }
+            });
+        };
+    });
+});
+
+// Get all the articles saved
+app.get("/getSavedArticles", function(re, res) {
+    // Retrieve all articles from SavedNews
+    SavedNews.find({}, (err, savedArticles) =>{
+        if(err){
+            res.send(err.message);
+        }else{
+            res.json(savedArticles);
+        }
+    })
+})
 // Start the server
 app.listen(PORT, () => console.log(`App started at port ${PORT}!`));
