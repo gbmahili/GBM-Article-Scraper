@@ -14,14 +14,13 @@ app.use(bodyParser.urlencoded({extended:true}));
 const mongoose = require("mongoose");
 // Require our News model
 const AdventistNews = require("./models/AdventistNews.model");
-// use port 4000
-//var PORT = 3000;
+// use port 4000 or the environment's assigned port...such as Heroku's own port
 var PORT = process.env.PORT || 4000;
 
 // Here, we are creating our database location
 // If deployed, use the deployed database. Otherwise use the local adventist_news database
 const GBMLocalDB = "mongodb://localhost/adventist_news";
-var MONGODB_URI = "mongodb://heroku_dgs5qcn5:i6ru465ooebi5nprcpbv8bnt5h@ds215089.mlab.com:15089/heroku_dgs5qcn5" || GBMLocalDB;
+var MONGODB_URI = "process.env.MONGODB_URI" || GBMLocalDB;
 
 // Set mongoose to leverage built in JavaScript ES6 Promises
 // Connect to the Mongo DB
