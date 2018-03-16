@@ -15,7 +15,8 @@ const mongoose = require("mongoose");
 // Require our News model
 const AdventistNews = require("./models/AdventistNews.model");
 // use port 4000
-const PORT = 4000;
+//var PORT = 3000;
+var PORT = process.env.PORT || 4000;
 
 // Here, we are creating our database location
 // If deployed, use the deployed database. Otherwise use the local adventist_news database
