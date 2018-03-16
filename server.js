@@ -57,13 +57,13 @@ app.get("/articles", function(req, res) {
             });
         });
         // Push the new data to the database
-        AdventistNews.update({}, results, (err, newsArticle) => {
+        AdventistNews.update({}, results, { upsert: true },(err, newsArticle) => {
             if(err){
                 console.log(err);
             }else{
                 res.json(newsArticle);
             };
-        }, { upsert: true });
+        });
     });
 
 });
