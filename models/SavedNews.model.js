@@ -6,15 +6,18 @@ var Schema = mongoose.Schema;
 var SavedNewsSchema = new Schema({
     NewsTitle: {
         type: String,
-        required: "Title is Required"
+        required: "Title is Required",
+        unique: true
     },
     NewsArticleBlurb: {
         type: String,
-        required: "Blurb is Required"
+        required: "Blurb is Required",
+        unique: true
     },
     NewsLink: {
         type: String,
-        required: "Link is Required"
+        required: "Link is Required",
+        unique: true
     },
     NewsNotes: {
         type: String

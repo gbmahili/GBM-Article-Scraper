@@ -50,9 +50,10 @@
     <!-- Article Saved Modal -->
     <div id="articleSavedModal" class="modal cyan white-text">
         <div class="modal-content">
-            <h4 class="center-align">Article Saved</h4>
+            <h4 class="center-align articleSavedModalMsg">Article Saved</h4>
         </div>
         <div class="modal-footer">
+            <!-- <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat get-saved-aricles">View Saved Articles</a> -->
             <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
         </div>
     </div>
@@ -106,6 +107,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <script>
         $(document).ready(function () {
+            var savedArticles = {};
 
             // Get all the news Route...................
             $(document).on("click", ".scrapData", function(e){
@@ -146,7 +148,13 @@
                 };
                 // Send the id of the article to save to the server
                 $.post("/save_article", post_id, function(data){
-                    console.log(data);
+                    $("#articleSavedModal").removeClass("red").addClass("cyan");
+                    $(".articleSavedModalMsg").text("Article Saved!");                    
+                    if(data.code == 11000){
+                        $("#articleSavedModal").removeClass("cyan").addClass("red");
+                        $(".articleSavedModalMsg").text("You already saved that article!");
+                        console.log("You already saved that article");
+                    }
                 });
             });
 
@@ -180,7 +188,12 @@
                         $("#allTheNews").append(x);
                     });
                     // Pass the savedArticles to the outside world
-                    return savedArticles;
+                    if(savedArticles != ""){
+                        return savedArticles;
+                    }else{
+                        console.log("You don't have any articles saved at this time.")
+                    }
+                    
                 });
             });
 
@@ -259,7 +272,6 @@
             // Materialize Collapsible for adding notes and viewing article notes
             $('.collapsible').collapsible();
     });
-
 
     </script>
 </body>

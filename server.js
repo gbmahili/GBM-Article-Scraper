@@ -89,7 +89,7 @@ app.post("/save_article", function(req, res){
             // Save that article to the SavedNews Collection
             SavedNews.create(articleToSave, (err, favoriteArticles) =>{
                 if(err) {
-                    res.send(err.message);
+                    res.send(err);
                 }else{
                     res.json(favoriteArticles);
                 }
