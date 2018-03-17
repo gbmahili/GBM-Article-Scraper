@@ -10,6 +10,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GBM - Article - Scraper</title>
     <style>
+        html{
+            background: #B88F73;
+        }
+        body, h3, .intro{
+            margin: 0 !important;            
+        }
+        .intro{
+            padding: 10px 15px;
+
+        }
+        #showcase{
+            background-image: url("news1.jpeg");
+            height: 100vh;
+            background-size: cover;
+            background-position: center;
+        }
         .btn{
             margin: 5px 2px;
         }
@@ -24,14 +40,17 @@
 </head>
 <body>
 
+    <main  id="showcase">
     <div class="container">
-        <h3 class="center-align">Welcome to the Adventist News Scaper</h3>
-        <h4 class="center-align">To get the latest news:</h4>
-        <p class="center-align">
-            <span class="center-align">1. Go to the red menu button</span>
-            <br>
-            <span class="center-align">2. Then click/press new to get the latest news!</span>
-        </p>
+        <div class="card intro grey lighten-3">            
+            <h3 class="center-align">Welcome to the Adventist News Scaper</h3>
+            <h4 class="center-align">To get the latest news:</h4>
+            <p class="center-align">
+                <span class="center-align">1. Go to the red menu button</span>
+                <br>
+                <span class="center-align">2. Then click/press new to get the latest news!</span>
+            </p>
+        </div>
         
         
         <div class="row" id="allTheNews"></div>
@@ -106,6 +125,7 @@
         </div>
     </div>
 </div>
+</main>
 
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
