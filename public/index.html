@@ -32,17 +32,17 @@
 
     <div class="fixed-action-btn horizontal">
         <a class="btn-floating btn-large red">
-            <i class="large material-icons">get_app</i>Get
+            <i class="large material-icons">menu</i>
         </a>
         <ul>
-            <li>
-                <a class="btn scrapData">
-                    Get News Articles
+            <li title="GET LATEST NEWS">
+                <a class="scrapData btn-floating btn-large cyan">
+                    <i class="large material-icons">get_app</i>
                 </a>
             </li>
-            <li>
-                <a class="get-saved-aricles btn yellow darken-1">
-                    Get Saved Articles
+            <li title="VIEW SAVED ARTICLES">
+                <a class="get-saved-aricles btn-large btn-floating yellow darken-1">
+                    <i class="material-icons right">favorite</i>
                 </a>
             </li>
         </ul>
@@ -177,8 +177,8 @@
                                         </div>
                                         <div class="card-action">
                                         <a class="btn" href="${element.NewsLink}" target="_blank">Read Article</a>
-                                        <a class="btn waves-effect waves-light modal-trigger cyan viewAddNotes" article_id="${element._id}" href="#modal">View/Add Notes</a>
-                                        <a class="btn waves-effect waves-light red deleteSavedArticle" article_id="${element._id}"><i class="material-icons right">delete</i>Delete</a>
+                                        <a class="btn-floating waves-effect waves-light modal-trigger cyan viewAddNotes" article_id="${element._id}" href="#modal"><i class="material-icons right">comment</i></a>
+                                        <a class="btn-floating waves-effect waves-light red deleteSavedArticle" article_id="${element._id}"><i class="material-icons right">delete</i></a>
 
                                         </div>
                                     </div>
