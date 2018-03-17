@@ -9,34 +9,7 @@
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GBM - Article - Scraper</title>
-    <style>
-        html{
-            background: #B88F73;
-        }
-        body, h3, .intro{
-            margin: 0 !important;            
-        }
-        .intro{
-            padding: 10px 15px;
-
-        }
-        #showcase{
-            background-image: url("news1.jpeg");
-            height: 100vh;
-            background-size: cover;
-            background-position: center;
-        }
-        .btn{
-            margin: 5px 2px;
-        }
-        .small-caps{
-            font-variant: small-caps;
-        }
-        .blue-grey{
-            min-height: 280px !important;
-            max-height: 350px !important;
-        }
-    </style>
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
 
@@ -270,7 +243,7 @@
                     // Clear the input field
                     $("#articleNotes").val("");
                 }else{
-                    Materialize.toast('Article Notes are required in order to be posted.', 5000);
+                    Materialize.toast('Please enter article notes.The field is required!', 5000);
                     return;
                 }
             });
