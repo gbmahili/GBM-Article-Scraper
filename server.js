@@ -54,7 +54,7 @@ app.get("/articles", function(req, res) {
                 NewsTitle: newsTitle, 
                 NewsArticleBlurb: newsArticleBlurb,
                 NewsLink: newsLink,
-                NewsNotes : "Testing Notes will updated when a user adds their notes"
+                NewsNotes: "You currently don't have note. Add notes below..."
             });
         });
         // Push the new data to the database
@@ -84,7 +84,7 @@ app.post("/save_article", function(req, res){
                 NewsTitle: savedArticles.NewsTitle,
                 NewsArticleBlurb: savedArticles.NewsArticleBlurb,
                 NewsLink: savedArticles.NewsLink,
-                NewsNotes: "Testing Notes will updated when a user adds their notes"
+                NewsNotes: "You currently don't have note. Add notes below..."
             };
             // Save that article to the SavedNews Collection
             SavedNews.create(articleToSave, (err, favoriteArticles) =>{
@@ -99,7 +99,7 @@ app.post("/save_article", function(req, res){
 });
 
 // Get all the articles saved
-app.get("/getSavedArticles", function(re, res) {
+app.get("/getSavedArticles", function(req, res) {
     // Retrieve all articles from SavedNews
     SavedNews.find({}, (err, savedArticles) =>{
         if(err){
@@ -108,6 +108,32 @@ app.get("/getSavedArticles", function(re, res) {
             res.json(savedArticles);
         }
     })
+});
+
+// Delete Article
+app.delete("/deleteSavedArticle/:id", function (req, res) {
+    // Retrieve all articles from SavedNews
+    var article_id = req.params.id;
+    SavedNews.remove({ _id: article_id}, (err, deletedArticle) => {
+        if (err) {
+            res.send(err.message);
+        } else {
+            res.json(deletedArticle);
+        }
+    })
+});
+
+// Update notes:
+app.post("/updateNewsNotes", function(req, res){
+    console.log(req.body);
+    SavedNews.update({_id: req.body.notesArticleId}, {NewsNotes: req.body.noteToBePosted}, function(err, updatedArticle){
+        if (err) {
+            res.send(err.message);
+        } else {
+            res.json(updatedArticle);
+        }
+    })
 })
+
 // Start the server
 app.listen(PORT, () => console.log(`App started at port ${PORT}!`));

@@ -9,14 +9,27 @@
     <!--Let browser know website is optimized for mobile-->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GBM - Article - Scraper</title>
+    <style>
+        .btn{
+            margin: 5px 2px;
+        }
+        .small-caps{
+            font-variant: small-caps;
+        }
+        .blue-grey{
+            min-height: 280px !important;
+            max-height: 350px !important;
+        }
+    </style>
 </head>
 <body>
+
     <div class="container">
         <h3 class="center-align">Welcome to the Adventist News Scaper</h3>
         <p class="center-align">Go to the red button to start scaping latest news!</p>
         <div class="row" id="allTheNews"></div>
 
-    </div>
+
     <div class="fixed-action-btn horizontal">
         <a class="btn-floating btn-large red">
             <i class="large material-icons">get_app</i>Get
@@ -24,7 +37,7 @@
         <ul>
             <li>
                 <a class="btn scrapData">
-                    Get News Articles                    
+                    Get News Articles
                 </a>
             </li>
             <li>
@@ -34,89 +47,220 @@
             </li>
         </ul>
     </div>
+    <!-- Article Saved Modal -->
+    <div id="articleSavedModal" class="modal cyan white-text">
+        <div class="modal-content">
+            <h4 class="center-align">Article Saved</h4>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+    </div>
+    <!-- Adding Notes Modal -->
+    <div id="modal" class="notesSection modal">
+        <div class="modal-content">
+            <h5 class="center-align cyan-text small-caps">Use this section to view or create a note for:</h5>
+            <h5 class="center-align green-text small-caps" id="selectedArticle"></h5>
+            <div class="cols s12s m8s offset-m2s">
+                <ul class="collapsible" data-collapsible="accordion">
+                    <li>
+                        <div class="collapsible-header">
+                            <i class="material-icons">speaker_notes</i>Current Notes</div>
+                        <div class="collapsible-body">
+                            <span id="currentNotes">You currently don't have note. Add notes below...</span>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="collapsible-header">
+                            <i class="material-icons">add</i>Add Notes</div>
+                        <div class="collapsible-body">
+                            <!-- Enter notes here -->
+                            <div class="row">
+                                <form class="col s12">
+                                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <textarea id="articleNotes" class="materialize-textarea" data-length="200"></textarea>
+                                            <label for="articleNotes">Article Notes</label>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <br>
+                            <div>
+                                <input type="submit" value="Post Note" class="btn postNotesBtn">
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Close</a>
+        </div>
+    </div>
+</div>
 
-
-
-<body>
     <!--Import jQuery before materialize.js-->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
     <script>
-        // Get all the news
-        $(".scrapData").click(e => {
-            e.preventDefault();
-            $("#allTheNews").text("");
-            $.get("/articles", function (data) {
-                data.forEach(element => {
-                    var x = `
-                            <div class="col s12 m6">
-                                <div class="card blue-grey darken-1">
-                                    <div class="card-content white-text">
-                                    <span class="card-title">${element.NewsTitle}</span>
-                                    <p>${element.NewsArticleBlurb}</p>
-                                    </div>
-                                    <div class="card-action">
-                                    <a class="btn" href="${element.NewsLink}" target="_blank">Read Article</a>
-                                    <a class="btn save-article-btn blue" href="#" article_id="${element._id}">Save Article</a>
+        $(document).ready(function () {
+
+            // Get all the news Route...................
+            $(document).on("click", ".scrapData", function(e){
+                e.preventDefault();
+                // First, let's empty the allTheNews div
+                $("#allTheNews").text("");
+                // Send request to the server
+                $.get("/articles", function (data) {
+                    // Loop through all the news articles returned from the server
+                    data.forEach(element => {
+                        // Create a singleNewsArticle
+                        var singleNewsArticle = `
+                                <div class="col s12 m6">
+                                    <div class="card blue-grey darken-1">
+                                        <div class="card-content white-text">
+                                        <span class="card-title">${element.NewsTitle}</span>
+                                        <p>${element.NewsArticleBlurb}</p>
+                                        </div>
+                                        <div class="card-action">
+                                        <a class="btn" href="${element.NewsLink}" target="_blank">Read Article</a>
+                                        <a class="btn waves-effect waves-light save-article-btn blue modal-trigger" href="#articleSavedModal" article_id="${element._id}">Save Article</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                    `;
-                $("#allTheNews").append(x);
+                        `;
+                    // Append the singleNewsArticle to allTheNews
+                    $("#allTheNews").append(singleNewsArticle);
+                    });
                 });
+            });
+
+            // Save news Route.................................
+            $(document).on("click", ".save-article-btn", function(e) {
+                e.preventDefault();
+                // Create an object that contains the ID of the article to save
+                const post_id = {
+                    article_id: $(this).attr("article_id")
+                };
+                // Send the id of the article to save to the server
+                $.post("/save_article", post_id, function(data){
+                    console.log(data);
+                });
+            });
+
+            // Get Saved Articles Route................................
+            $(document).on("click", ".get-saved-aricles", function(e) {
+                e.preventDefault();
+                // Send the id of the article to save to the server
+                $("#allTheNews").text("");
+                $.get("/getSavedArticles", function (savedArticleData) {
+                    
+                    savedArticleData.forEach(element => {
+                        // Get saved article data
+                        savedArticles = savedArticleData;
+                        // Build a note
+                        var x = `
+                                <div class="col s12 m6">
+                                    <div class="card blue-grey darken-2">
+                                        <div class="card-content white-text">
+                                        <span class="card-title">${element.NewsTitle}</span>
+                                        <p>${element.NewsArticleBlurb}</p>
+                                        </div>
+                                        <div class="card-action">
+                                        <a class="btn" href="${element.NewsLink}" target="_blank">Read Article</a>
+                                        <a class="btn waves-effect waves-light modal-trigger cyan viewAddNotes" article_id="${element._id}" href="#modal">View/Add Notes</a>
+                                        <a class="btn waves-effect waves-light red deleteSavedArticle" article_id="${element._id}"><i class="material-icons right">delete</i>Delete</a>
+
+                                        </div>
+                                    </div>
+                                </div>
+                        `;
+                        $("#allTheNews").append(x);
+                    });
+                    // Pass the savedArticles to the outside world
+                    return savedArticles;
+                });
+            });
+
+            // Add Notes Route.....................................
+            var notesArticleId;
+            $(document).on("click", ".viewAddNotes", function (e) {
+                // Get the article id
+                notesArticleId = $(this).attr("article_id");
+                // Loop through all the saved articles
+                savedArticles.forEach(element => {
+                    if(element._id == notesArticleId){
+                        // Get the article title of the view notes clicked on
+                        $("#selectedArticle").text(element.NewsTitle);
+                        // Populate current notes of the article clicked on
+                        $("#currentNotes").text(element.NewsNotes);
+                    }
+                });
+            });
+
+            // Send Notes to server..............
+            $(".postNotesBtn").click(function(e){
+                e.preventDefault();
+                // TODO:
+                // Get Note to post
+                noteToBePosted = $("#articleNotes").val();
+                var articleInfo = {
+                    notesArticleId: notesArticleId,
+                    noteToBePosted: noteToBePosted
+                };
+                // Check if notes to be posted is not empty
+                if(noteToBePosted){
+                    // Send to server
+                    $.ajax({
+                        url: "/updateNewsNotes",
+                        method: "POST",
+                        data: articleInfo,
+                        success: function (updatedArticle) {
+                            if (updatedArticle.ok) {
+                                // Update UI with the new notes
+                                $("#currentNotes").text(noteToBePosted);
+                                $(".active").click();
+                                Materialize.toast('Notes saved! Click on "Current Notes" to view the updated notes!', 5000)
+                            }
+
+                        }
+                    });
+                    // Clear the input field
+                    $("#articleNotes").val("");
+                }else{
+                    Materialize.toast('Article Notes are required in order to be posted.', 5000);
+                    return;
+                }
+            });
+
+            // Delete Saved Article Route
+            $(document).on("click", ".deleteSavedArticle", function (e) {
+                e.preventDefault();
+                // Create an variable that contains the ID of the article to DELETE
+                var article_id = $(this).attr("article_id");
                 
-                console.log(data);
-            });
-        });
-
-        // Save news
-        $(document).on("click", ".save-article-btn", function(e) {
-            e.preventDefault();
-            // Create an object that contains the ID of the article to save
-            const post_id = {                
-                article_id: $(this).attr("article_id")
-            };
-            console.log(post_id);
-            // Send the id of the article to save to the server
-            $.post("/save_article", post_id, function(data){                
-                console.log(data);
-            });
-        });
-
-        // Get Saved Articles
-        $(document).on("click", ".get-saved-aricles", function(e) {
-            e.preventDefault();            
-            // Send the id of the article to save to the server
-            $("#allTheNews").text("");
-            $.get("/getSavedArticles", function (data) {
-                data.forEach(element => {
-                    var x = `
-                            <div class="col s12 m6">
-                                <div class="card blue-grey darken-1">
-                                    <div class="card-content white-text">
-                                    <span class="card-title">${element.NewsTitle}</span>
-                                    <p>${element.NewsArticleBlurb}</p>
-                                    </div>
-                                    <div class="card-action">
-                                    <a class="btn" href="${element.NewsLink}" target="_blank">Read</a>
-                                    <a class="btn cyan" href="#" target="_blank">Add Notes</a>
-                                    <a class="btn waves-effect waves-light red" article_id="${element._id}"><i class="material-icons right">delete</i>button</a>
-                                    
-                                    </div>
-                                </div>
-                            </div>
-                    `;
-                    $("#allTheNews").append(x);
+                $.ajax({
+                    url: `/deleteSavedArticle/${article_id}`,
+                    type: 'DELETE',
+                    success: function (responseIs) {
+                        // Check if the response is okay...means 1 was returned in the ok property of the object
+                        if(responseIs.ok == 1){
+                            // Refresh the saved article by clicking the Get Saved Articles Button
+                            $(".get-saved-aricles").click();
+                        }
+                    }
                 });
-
-                console.log(data);
             });
-        });
+
+            // Materialize Modal for adding notes and viewing article notes
+            $(".modal").modal();
+            // Materialize Collapsible for adding notes and viewing article notes
+            $('.collapsible').collapsible();
+    });
+
 
     </script>
-</body>
-
-
 </body>
 </html>
