@@ -7,13 +7,8 @@ const app = express();
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
-// Get api routes
-require("./routes/view/html-routes")(app);
-require("./routes/api/scrape")(app);
-require("./routes/api/save-article")(app);
-require("./routes/api/retrieve-saved-articles")(app);
-require("./routes/api/delete-saved-article")(app);
-require("./routes/api/update-news-notes")(app);
+// Get all the api routes saved inside of index.js
+require("./routes/index")(app);
 // use port 4000 or the environment's assigned port...such as Heroku's own port
 var PORT = process.env.PORT || 4000;
 // If deployed to heroku, use the deployed database (process.env.MONGODB_URI). Otherwise use the local adventist_news database
