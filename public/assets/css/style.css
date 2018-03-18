@@ -30,6 +30,9 @@ body, h3, .intro{
     bottom: 10%;
     left:15%;
 }
+h2 {
+    font-size: 1.9em !important;
+}
 h3, h4, .intro p{
     font-variant: small-caps;
     border: 1px solid #aaa;
@@ -43,6 +46,9 @@ h3 {
 }
 h4{
     font-size: 1.3em;
+}
+.articleCard{
+    margin: 7.5px 0 !important;
 }
 /* Media Queries */
 @media only screen and (max-width: 600px) {
