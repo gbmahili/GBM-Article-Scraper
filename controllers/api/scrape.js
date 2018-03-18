@@ -28,7 +28,15 @@ module.exports = app => {
                     NewsNotes: "You currently don't have note. Add notes below..."
                 });
             });
-            // Push the new data to the database
+            // TODO:
+            // Since I am still not able to avoid duplicate insertion,
+            //I will clear the current documents in the adventistnews collection
+            AdventistNews.remove({}, function(err, data){
+                if(err){
+                    console.log(err.message);
+                }
+            });
+            // Then Push the new data to the database
             AdventistNews.create(results, (err, newsArticle) => {
                 if (err) {
                     console.log(err);

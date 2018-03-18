@@ -9,7 +9,6 @@ module.exports = app => {
       // Get the ID of the article to save from the client
       var article_id = req.body.article_id;
       // Save it to the new schema for saved articles
-      console.log(article_id);
       AdventistNews.findOne({ "_id": article_id })
         .exec(function (err, savedArticles) {
           if (err) {

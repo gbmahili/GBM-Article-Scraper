@@ -6,7 +6,6 @@ const SavedNews = require("./../../models/SavedNews.model");
 module.exports = app => {
     // Update notes:
     app.post("/updateNewsNotes", function (req, res) {
-        console.log(req.body);
         SavedNews.update({ _id: req.body.notesArticleId }, { NewsNotes: req.body.noteToBePosted }, function (err, updatedArticle) {
             if (err) {
                 res.send(err.message);
