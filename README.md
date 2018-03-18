@@ -14,3 +14,4 @@ The application is live on this link https://desolate-falls-48708.herokuapp.com/
 ## Application Demo:
 
 ### Getting and Saving Articles
+![GIF Animation of the application]["./public/assets/images/demo.gif"]
