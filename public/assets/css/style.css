@@ -2,11 +2,14 @@ html{
     background: #B88F73;
 }
 body, h3, .intro{
-    margin: 0 !important;            
+    margin: 0 !important;
 }
 .intro{
     padding: 10px 15px;
 
+}
+#articleSavedModal.modal {
+    width: 35% !important ;
 }
 #showcase{
     background-image: url("./../images/news-image.jpeg");
@@ -52,6 +55,9 @@ h4{
 }
 /* Media Queries */
 @media only screen and (max-width: 600px) {
+    #articleSavedModal.modal {
+    width: 75% !important ;
+}
     .intro h3{
         display: none;
     }
