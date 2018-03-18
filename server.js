@@ -8,7 +8,7 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}));
 // Get api routes
-require("./routes/api-routes")(app);
+require("./routes/view/html-routes")(app);
 require("./routes/api/scrape")(app);
 require("./routes/api/save-article")(app);
 require("./routes/api/retrieve-saved-articles")(app);
