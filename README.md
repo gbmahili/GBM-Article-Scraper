@@ -14,7 +14,3 @@ The application is live on this link https://desolate-falls-48708.herokuapp.com/
 ## Application Demo:
 
 ### Getting and Saving Articles
-<a href="https://imgflip.com/gif/26m8kx"><img src="https://i.imgflip.com/26m8kx.gif" title="made at imgflip.com"/></a>
-
-### Adding Notes to Articles
-<a href="https://imgflip.com/gif/26m8qj"><img src="https://i.imgflip.com/26m8qj.gif" title="made at imgflip.com"/></a>
