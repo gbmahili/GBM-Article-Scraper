@@ -13,6 +13,7 @@ require("./routes/api/scrape")(app);
 require("./routes/api/save-article")(app);
 require("./routes/api/retrieve-saved-articles")(app);
 require("./routes/api/delete-saved-article")(app);
+require("./routes/api/update-news-notes")(app);
 // use port 4000 or the environment's assigned port...such as Heroku's own port
 var PORT = process.env.PORT || 4000;
 // If deployed to heroku, use the deployed database (process.env.MONGODB_URI). Otherwise use the local adventist_news database
